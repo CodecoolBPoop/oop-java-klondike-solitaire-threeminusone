@@ -63,6 +63,7 @@ public class Game extends Pane {
         draggedCards.clear();
         draggedCards.add(card);
 
+
         card.getDropShadow().setRadius(20);
         card.getDropShadow().setOffsetX(10);
         card.getDropShadow().setOffsetY(10);
@@ -80,6 +81,7 @@ public class Game extends Pane {
         //TODO
         if (pile != null) {
             handleValidMove(card, pile);
+            draggedCards.clear();
         } else {
             draggedCards.forEach(MouseUtil::slideBack);
             draggedCards = null;
@@ -120,16 +122,22 @@ public class Game extends Pane {
 
     public boolean isMoveValid(Card card, Pile destPile) {
         //TODO
-        Pile actual = destPile;
         Card top = destPile.getTopCard();
-        boolean valid;
         if(top == null){
             System.out.println("Its valid move");
             return true;
         }else {
-            valid = Card.isOppositeColor(card,top);
-            System.out.println("Its valid move?" + valid);
-            return valid;
+            boolean valid1;
+            valid1 = Card.isOppositeColor(card,top);
+            int rankTop = top.getRank();
+            System.out.println("Its valid move?" + valid1 + "card top rank:" + rankTop + "card rank:" + card.getRank());
+            int differenceRank = top.getRank() - card.getRank();
+            if(differenceRank == 1 || differenceRank == -1 && valid1){
+                return true;
+            } else {
+                return false;
+            }
+
         }
     }
     private Pile getValidIntersectingPile(Card card, List<Pile> piles) {
