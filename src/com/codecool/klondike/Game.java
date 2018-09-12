@@ -13,13 +13,12 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class Game extends Pane {
 
     private List<Card> deck = new ArrayList<>();
+    private List<Card> remainCards = new ArrayList<>();
 
     private Pile stockPile;
     private Pile discardPile;
@@ -29,9 +28,9 @@ public class Game extends Pane {
     private double dragStartX, dragStartY;
     private List<Card> draggedCards = FXCollections.observableArrayList();
 
-    private static double STOCK_GAP = 1;
+    private static double STOCK_GAP = 0.2;
     private static double FOUNDATION_GAP = 0;
-    private static double TABLEAU_GAP = 30;
+    private static double TABLEAU_GAP = 25;
 
 
     private EventHandler<MouseEvent> onMouseClickedHandler = e -> {
@@ -94,6 +93,7 @@ public class Game extends Pane {
 
     public Game() {
         deck = Card.createNewDeck();
+        System.out.println(deck);
         initPiles();
         dealCards();
     }
@@ -106,7 +106,14 @@ public class Game extends Pane {
     }
 
     public void refillStockFromDiscard() {
-        //TODO
+        remainCards = discardPile.getCards();
+        Collections.reverse(remainCards);
+        Iterator<Card> deckIterators = remainCards.iterator();
+        deckIterators.forEachRemaining(card -> {
+            card.flip();
+            stockPile.addCard(card);
+            addMouseEventHandlers(card);});
+        discardPile.clear();
         System.out.println("Stock refilled from discard pile.");
     }
 
@@ -161,29 +168,29 @@ public class Game extends Pane {
     private void initPiles() {
         stockPile = new Pile(Pile.PileType.STOCK, "Stock", STOCK_GAP);
         stockPile.setBlurredBackground();
-        stockPile.setLayoutX(95);
+        stockPile.setLayoutX(75);
         stockPile.setLayoutY(20);
         stockPile.setOnMouseClicked(stockReverseCardsHandler);
         getChildren().add(stockPile);
 
         discardPile = new Pile(Pile.PileType.DISCARD, "Discard", STOCK_GAP);
         discardPile.setBlurredBackground();
-        discardPile.setLayoutX(285);
+        discardPile.setLayoutX(265);
         discardPile.setLayoutY(20);
         getChildren().add(discardPile);
 
         for (int i = 0; i < 4; i++) {
             Pile foundationPile = new Pile(Pile.PileType.FOUNDATION, "Foundation " + i, FOUNDATION_GAP);
             foundationPile.setBlurredBackground();
-            foundationPile.setLayoutX(610 + i * 180);
-            foundationPile.setLayoutY(20);
+            foundationPile.setLayoutX(585 + i * 180);
+            foundationPile.setLayoutY(25);
             foundationPiles.add(foundationPile);
             getChildren().add(foundationPile);
         }
         for (int i = 0; i < 7; i++) {
             Pile tableauPile = new Pile(Pile.PileType.TABLEAU, "Tableau " + i, TABLEAU_GAP);
             tableauPile.setBlurredBackground();
-            tableauPile.setLayoutX(95 + i * 180);
+            tableauPile.setLayoutX(50 + i * 180);
             tableauPile.setLayoutY(275);
             tableauPiles.add(tableauPile);
             getChildren().add(tableauPile);
@@ -197,7 +204,7 @@ public class Game extends Pane {
             stockPile.addCard(card);
             addMouseEventHandlers(card);
             getChildren().add(card);
-        });
+    });
 
     }
 
