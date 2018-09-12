@@ -86,15 +86,15 @@ public class Card extends ImageView {
         4 = cards - black        */
         if(card1.getSuit() == 1 || card1.getSuit() == 2){
             if(card2.getSuit() == 3 || card2.getSuit() == 4){
-                return false;
-            } else {
                 return true;
+            } else {
+                return false;
             }
         } else {
             if(card2.getSuit() == 1 || card2.getSuit() == 2){
-                return false;
-            } else {
                 return true;
+            } else {
+                return false;
             }
         }
     }
