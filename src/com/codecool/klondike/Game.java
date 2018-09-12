@@ -112,7 +112,17 @@ public class Game extends Pane {
 
     public boolean isMoveValid(Card card, Pile destPile) {
         //TODO
-        return true;
+        Pile actual = destPile;
+        Card top = destPile.getTopCard();
+        boolean valid;
+        if(top == null){
+            System.out.println("Its valid move");
+            return true;
+        }else {
+            valid = Card.isOppositeColor(card,top);
+            System.out.println("Its valid move?" + valid);
+            return valid;
+        }
     }
     private Pile getValidIntersectingPile(Card card, List<Pile> piles) {
         Pile result = null;
