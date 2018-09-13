@@ -84,14 +84,14 @@ public class Card extends ImageView {
         2 = diamonds -red
         3 = spades - black
         4 = cards - black        */
-        if (card1.getSuit() == 1 || card1.getSuit() == 2){
-            if(card2.getSuit() != 1 && card2.getSuit() != 2){
+        if(card1.getSuit() == 1 || card1.getSuit() == 2){
+            if(card2.getSuit() == 3 || card2.getSuit() == 4){
                 return true;
             } else {
                 return false;
             }
         } else {
-            if (card2.getSuit() == 1 || card2.getSuit() == 2){
+            if(card2.getSuit() == 1 || card2.getSuit() == 2){
                 return true;
             } else {
                 return false;

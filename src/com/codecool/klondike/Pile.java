@@ -40,7 +40,10 @@ public class Pile extends Pane {
     }
 
     public int numOfCards() {
-        return cards.size();
+        //TODO
+        ObservableList<Card> packOfCard = getCards();
+        int packSize = packOfCard.size();
+        return packSize;
     }
 
     public boolean isEmpty() {
