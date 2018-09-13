@@ -42,6 +42,11 @@ public class Game extends Pane {
             card.setMouseTransparent(false);
             System.out.println("Placed " + card + " to the waste.");
         }
+        else if (card.getContainingPile().getPileType() == Pile.PileType.TABLEAU) {
+            if (card.isFaceDown()) {
+                card.flip();
+            }
+        }
     };
 
     private EventHandler<MouseEvent> stockReverseCardsHandler = e -> {
@@ -64,9 +69,9 @@ public class Game extends Pane {
         draggedCards.clear();
         draggedCards.add(card);
 
-        card.getDropShadow().setRadius(20);
-        card.getDropShadow().setOffsetX(10);
-        card.getDropShadow().setOffsetY(10);
+        card.getDropShadow().setRadius(0);
+        card.getDropShadow().setOffsetX(0);
+        card.getDropShadow().setOffsetY(0);
 
         card.toFront();
         card.setTranslateX(offsetX);
@@ -83,7 +88,6 @@ public class Game extends Pane {
             handleValidMove(card, pile);
         } else {
             draggedCards.forEach(MouseUtil::slideBack);
-            draggedCards = null;
             draggedCards.clear();
         }
     };
@@ -95,7 +99,6 @@ public class Game extends Pane {
 
     public Game() {
         deck = Card.createNewDeck();
-        System.out.println(deck);
         initPiles();
         dealCards();
     }
