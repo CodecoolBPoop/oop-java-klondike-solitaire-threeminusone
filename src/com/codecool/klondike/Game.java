@@ -20,7 +20,6 @@ public class Game extends Pane {
 
     private List<Card> deck = new ArrayList<>();
     private List<Card> remainCards = new ArrayList<>();
-    private List<Card> iterateCards = new ArrayList<>();
 
     private Pile stockPile;
     private Pile discardPile;
@@ -65,7 +64,6 @@ public class Game extends Pane {
         draggedCards.clear();
         draggedCards.add(card);
 
-
         card.getDropShadow().setRadius(20);
         card.getDropShadow().setOffsetX(10);
         card.getDropShadow().setOffsetY(10);
@@ -83,7 +81,6 @@ public class Game extends Pane {
         //TODO
         if (pile != null) {
             handleValidMove(card, pile);
-            draggedCards.clear();
         } else {
             draggedCards.forEach(MouseUtil::slideBack);
             draggedCards = null;
@@ -192,7 +189,6 @@ public class Game extends Pane {
 
         for (int i = 0; i < 4; i++) {
             Pile foundationPile = new Pile(Pile.PileType.FOUNDATION, "Foundation " + i, FOUNDATION_GAP);
-            //System.out.println(foundationPile);
             foundationPile.setBlurredBackground();
             foundationPile.setLayoutX(585 + i * 180);
             foundationPile.setLayoutY(25);
